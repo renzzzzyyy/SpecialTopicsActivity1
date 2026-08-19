@@ -16,8 +16,16 @@ export function formatStudent(student: Student): string {
   return `${student.id} - ${student.name} (${student.status})`;
 }
 
-export function getStudentStatusLabel(status: StudentStatus): string {
-  return status === "active" ? "Active Student" : "Inactive Student";
+export function getStudentStatusLabel(status: unknown): string {
+  if (status === "active") {
+    return "Active Student";
+  }
+
+  if (status === "inactive") {
+    return "Inactive Student";
+  }
+
+  return "Unknown Student Status";
 }
 
 export function isStudent(value: unknown): value is Student {
@@ -62,5 +70,7 @@ const externalValues: unknown[] = [
 
 console.log(formatStudent(studentResponse.data));
 console.log(getStudentStatusLabel(studentResponse.data.status));
+console.log(getStudentStatusLabel("inactive"));
+console.log(getStudentStatusLabel("pending"));
 console.log(studentsResponse.data.map(formatStudent));
 console.log(externalValues.map((value) => isStudent(value)));
